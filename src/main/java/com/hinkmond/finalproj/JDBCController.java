@@ -1,13 +1,20 @@
 package com.hinkmond.finalproj;
 
+import com.hinkmond.finalproj.models.User;
+import com.hinkmond.finalproj.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class JDBCController {
-    private final static String KEYFILEPATH = "./keyFile.key";
+    private final static String KEYFILEPATH = "keyFile.key";
 
     @CrossOrigin
     @RequestMapping(value = "/helloworld", method = RequestMethod.GET)
@@ -39,6 +46,21 @@ public class JDBCController {
         return ("SELECT * from user_info:\n" + resultStr);
     }
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @CrossOrigin
+    @RequestMapping(value = "/getAllUsers", method = RequestMethod.GET)
+    public ResponseEntity<List<User>> getAll() {
+
+        List<User> users = userRepository.findAll();
+
+        if (users == null || users.isEmpty())
+            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+
+        return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+    }
+
     @CrossOrigin
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     public String addUser(@RequestBody AddUserData addUserData) {
@@ -53,6 +75,7 @@ public class JDBCController {
         int rowsUpdated = jdbcTemplate.update(queryStr);
         return ("Rows updated: " + rowsUpdated);
     }
+
 
     @CrossOrigin
     @RequestMapping(value = "/printAllAccts", method = RequestMethod.GET)

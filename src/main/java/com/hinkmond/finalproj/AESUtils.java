@@ -103,7 +103,7 @@ class AESUtils {
         String origStr = args.length == 0 ? "<Add password here, then remove when done>" : args[1];
         if (!(origStr.equals(""))) {
             AESUtils aesUtils = new AESUtils();
-            System.err.println(aesUtils.encrypt(origStr,"./keyFile.key"));
+            System.err.println(aesUtils.encrypt(origStr, "keyFile.key"));
         }
     }
 }
