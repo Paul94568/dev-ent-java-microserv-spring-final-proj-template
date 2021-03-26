@@ -227,6 +227,7 @@ Updates an existing Product.
   **Required:**
 
   `{
+  "productId":9,
   "productName": "Hanes Premium Men's X-Temp Ultra Cushion Crew Socks",
   "productDescription": "Pack of 6 pairs"
   }`
